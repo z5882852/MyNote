@@ -45,5 +45,3 @@ async def get_goods_info(page_start, page_end, save_path):
 
 if __name__ == '__main__':
     get_goods_info(1, 200, 'temp/1.txt')
-
-
