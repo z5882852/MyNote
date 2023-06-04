@@ -45,9 +45,10 @@ data_1 = data[data['列名'].str.contains('值1|值2|值3')]  # 筛选指定列�
 数据读取和导出
 ```Python
 print(data_1.values)  # 以列表的形式输出
+print(data_1['列名'].value_counts())  # 统计该列名的值数量
 
 data_1.to_csv('data.csv', index=False)  # 导出为csv文件，去除行索引
-data_1.to_csv('data.txt', index=False, header=False)  # 导出为txt文件，去除列索引和行索引
+data_1.to_csv('data.txt', sep=',', index=False, header=False)  # 导出为txt文件，去除列索引和行索引
 
 # 以下是使用open方法保存文件
 for row in data_1.values:
@@ -60,6 +61,23 @@ for row in data_1.values:
 ```Python
 import matplotlib.pyplot as plt
 ```
+一个简单例子:
+```Python
+plt.title("title")  # 标题的名称
+
+x = [1, 2, 3, 4, 5]
+y = [1, 4, 9, 16, 25]
+
+plt.plot(x,y)  # 绘制图像
+
+plt.savefig('plt_example.png') # 保存图片
+
+plt.show() # 显示图像
+```
+这是输出的图片
+
+![图片无法加载](src\plt_example.png "图片")
+
 ### Requests
 引用模块
 ```Python
