@@ -19,6 +19,42 @@ import numpy as np
 ```Python
 import pandas as pd
 ```
+读取文件
+```Python
+data = pd.read_csv(file_path, header=0, sep=',', engine='python', encoding='utf-8', keep_default_na=False)
+```
+`read_csv`一些参数解释
+|参数|解释|
+|:---|:----|
+|`sep`|指定分隔符。默认`,`分隔。|
+|`header`|指定行数用来作为列名，数据开始行数。|
+|`engine`|使用的分析引擎。可以选择`C`或者是`python`。C引擎快但是`Python`引擎功能更加完备。|
+|`encoding`|指定字符集类型，通常指定为`utf-8`。|
+|`na_values`|指定缺失值，为列表或者集合|
+|`keep_default_na`|设为False之后同时不定义na_values参数，就可以在读取文件时不将任何值转换为缺失值NaN。|
+
+数据筛选
+```Python
+data_1 = data[data['列名'] == '指定值']  # 筛选指定列的指定值
+
+data_1 = data[pd.to_datetime(data['时间']) >= pd.to_datetime('2023-01-01')]  # 筛选时间列的时间范围
+
+data_1 = data[data['列名'].str.contains('值1|值2|值3')]  # 筛选指定列包含的值，使用'|'进行分割，相当于 or
+```
+
+数据读取和导出
+```Python
+print(data_1.values)  # 以列表的形式输出
+
+data_1.to_csv('data.csv', index=False)  # 导出为csv文件，去除行索引
+data_1.to_csv('data.txt', index=False, header=False)  # 导出为txt文件，去除列索引和行索引
+
+# 以下是使用open方法保存文件
+for row in data_1.values:
+    with open('data.txt', 'a', encoding='utf-8') as file:
+        file.write(','.join(row) + '\n')  # 自定义分隔符
+```
+
 ### Matplotlib
 引用模块
 ```Python
@@ -97,6 +133,7 @@ hdfs namenode -format # 格式化HDFS文件系统
 
 
 ### Hive
+注: 伪集群的Hive通过Reduce操作时是真的慢，基本都是1分钟以上，使用能不用Hive就不用Hive。
 ```bash
 schematool -dbType mysql -initSchema  # 初始化Hive元数据库
 
@@ -153,3 +190,7 @@ hive> create table goods1 as # goods1 为创建的新表名称
     >   and title not like "%女士%"
     >   and title is not null;
 ```
+
+### 一些问题
+![图片无法加载](src/01.png "图片")
+其中第4题的空值null数据是值上一题的价格(price)为空值(null)而不是标题(title)为null
