@@ -98,9 +98,58 @@ hdfs namenode -format # 格式化HDFS文件系统
 
 ### Hive
 ```bash
-schematool -dbType mysql -initSchema # 初始化Hive元数据库
+schematool -dbType mysql -initSchema  # 初始化Hive元数据库
 
 hive # 进入Hive
 
-create database <库名> # 插件Hive数据库
+hive> create database <库名>;  # 创建Hive数据库
+
+hive> use <库名>;  #进入数据库
+
+hive> create table <表名>(id int,name string);  #创建数据表
+
+hive> insert into <表名> values (1,"zhangsan");  #插入数据
+```
+以下例子为创建字段：id,title,price,views,sales,stock的表，并导入csv数据。
+```bash
+hive> create table goods(
+    >     id int,
+    >     title string,
+    >     price double,
+    >     views int,
+    >     sales int,
+    >     stock int
+    > ) 
+    > row format delimited fields terminated by ','; #创建数据表,指定了逗号作为列分隔符; 
+
+hive> load data local inpath '/data/csv2.csv' into table goods;  # 导入csv文件数据
+
+hive> load data local inpath '/data/goods.txt' into table goods;  # 导入csv文件数据
+``` 
+以下例子是通过Reduce查询价格(price)为空的记录并写入到某一路径。
+```bash
+hive> insert overwrite local directory '/root/'
+    > row format delimited fields terminated by '\t'  # 数据分隔符'\t'
+    > select * from goods where price is null;  # 查询语句
+```
+当然有更简单的方法。
+```bash
+hive -e "use shopxo;select * from goods where price is null;" > /root/shopxo/out.txt  # 在hive外执行
+```
+以下是将查询结果保存到表的语句。
+```bash
+hive> insert overwrite table goods1  # goods1 为表名称
+    > select * 
+    > from goods 
+    > where title not like "%连衣裙%" 
+    >   and title not like "%女士%" 
+    >   and title is not null;
+
+# 以下是直接创建新表的语句
+hive> create table goods1 as # goods1 为创建的新表名称
+    > select * 
+    > from goods 
+    > where title not like "%连衣裙%" 
+    >   and title not like "%女士%"
+    >   and title is not null;
 ```
