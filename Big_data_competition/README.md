@@ -76,7 +76,7 @@ plt.show() # 显示图像
 ```
 这是输出的图片
 
-![图片无法加载](src\plt_example.png "图片")
+![图片无法加载](src/plt_example.png "图片")
 
 ### Requests
 引用模块
