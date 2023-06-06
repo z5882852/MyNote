@@ -24,7 +24,7 @@ for i in range(len(x)):
 
 min_temp = min(y)
 min_index = y.index(min_temp)
-plt.annotate('最低气温', xy=(x[min_index], min_temp), xytext=(x[min_index]-2, min_temp-4),
+plt.annotate('最低气温', xy=(x[min_index], min_temp), xytext=(x[min_index]-2, min_temp-2),
              arrowprops=dict(facecolor='black', arrowstyle='->'))  # 添加注释
 
 plt.legend(['气温'], loc='lower right', fontsize=10)  # 设置图例
