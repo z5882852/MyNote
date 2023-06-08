@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
-async def get_good_info(url, headers):
-    response = await requests.get(url=url, headers=headers)
+def get_good_info(url, headers):
+    response = requests.get(url=url, headers=headers)
     if response.status_code != 200:
         print("获取页面失败")
         return [False]
@@ -27,11 +27,11 @@ def save_as_txt(file_path, text):
     with open(file_path, 'w+', encoding='utf-8') as f:
         f.write(text)
 
-async def get_goods_info(page_start, page_end, save_path):
+def get_goods_info(page_start, page_end, save_path):
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/71.0.3578.80 Chrome/71.0.3578.80 Safari/537.36'}
-    url = 'http://101.200.162.163/index.php?s=/index/goods/index/id/{}.html' 
+    url = 'http://101.200.221.185/index.php?s=/index/goods/index/id/{}.html' 
     for i in range(page_start, page_end + 1):
-        good_list = await get_good_info(url.format(i), headers)
+        good_list = get_good_info(url.format(i), headers)
         if not good_list[0]:
             continue
         good_list.pop(0)
@@ -44,4 +44,4 @@ async def get_goods_info(page_start, page_end, save_path):
 
 
 if __name__ == '__main__':
-    get_goods_info(1, 200, 'temp/1.txt')
+    get_goods_info(1, 200, '1.txt')
