@@ -1,6 +1,8 @@
 def process():
     '''
-    将theft.csv时间字段的格式转换为 YYYY-MM-DD HH:MM:SS
+    theft.csv数据处理函数
+    将时间字段的格式转换为 YYYY-MM-DD HH:MM:SS
+    将loss字段'元'去掉
     '''
     infos = read_file()
     datas = ''
@@ -12,7 +14,7 @@ def process():
         data[9] = time_format(data[9])
         data[10] = time_format(data[10])
         datas += ','.join(data)
-    with open('theft_1.csv', 'w', encoding='utf-8') as f:
+    with open('theft_2.csv', 'w', encoding='utf-8') as f:
        f.write(datas)
 
 def read_file():
