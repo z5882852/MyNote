@@ -1,0 +1,39 @@
+create database theft (
+id string,
+case_type string,
+case_subtype string,
+casename string,
+loss string,
+case_source string,
+time_toplimit string,
+time_lowerlimit string,
+address string,
+accept_time string,
+report_time string
+)
+row format delimited fields terminated by ',';
+
+
+create database theft_2 (
+id string,
+case_type string,
+case_subtype string,
+casename string,
+loss int,
+case_source string,
+time_toplimit timestamp,
+time_lowerlimit timestamp,
+address string,
+accept_time timestamp,
+report_time timestamp
+)
+row format delimited fields terminated by ',';
+
+
+hive -e "use project;select count(*) from theft_2 where year(report_time) = '2021' and month(report_time)  = '05';" > /root/theft/result01/000000_0
+
+hive -e "use project;select sum(loss) from theft_2 where year(report_time) = '2021' and month(report_time)  = '04';" > /root/theft/result02/000000_0
+
+hive -e "use project;select address,count(*) as aa from theft group by address order by aa desc limit 1;" > /root/theft/result03/000000_0
+
+hive -e "use project;select min(loss),case_subtype from theft GROUP BY case_subtype;" > /root/theft/result04/000000_0
